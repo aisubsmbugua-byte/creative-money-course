@@ -28,12 +28,16 @@ const MODULES: ModuleSeed[] = [
   {
     slug: "welcome",
     title: "Welcome",
+    description:
+      "A quick welcome before you start — what this course covers and how the modules fit together.",
     order: 0,
     videoDriveId: "1lZY3joy-_nZ5wmsMXqOzPsNqaZ4aPl8X",
   },
   {
     slug: "module-1-defining-your-end-goal",
     title: "Module 1: Defining Your End Goal",
+    description:
+      "Before you build anything, get clear on where you're going. You'll learn the three building blocks of a real end game — mission, vision, and SMART goals — and map out your own.",
     order: 1,
     videoDriveId: "1J2UmAzWLeZK13lUgHAGE2Fk2jbU9qnsI",
     questions: [
@@ -57,6 +61,8 @@ const MODULES: ModuleSeed[] = [
   {
     slug: "module-2-can-the-real-you-please-stand-up",
     title: "Module 2: Can The Real You Please Stand Up?",
+    description:
+      "Figure out what makes you different. You'll uncover your unique selling proposition — the specific mix of talent, presence, and offer that's yours alone — and put it into one clear statement.",
     order: 2,
     videoDriveId: "10GOUkQgjtJ2Pt6dc-58Qj-L9XUsC0tMv",
     questions: [
@@ -79,6 +85,8 @@ const MODULES: ModuleSeed[] = [
   {
     slug: "module-3-understanding-your-customer",
     title: "Module 3: Understanding Your Customer",
+    description:
+      "Stop creating for \"everyone.\" You'll define your actual target audience — who they are, what they care about, and what drives their decisions — so your work lands with the right people.",
     order: 3,
     videoDriveId: "17Kb0dL_aQyDUUJE9-nU7oFDPXtnWRKDg",
     questions: [
@@ -99,6 +107,8 @@ const MODULES: ModuleSeed[] = [
   {
     slug: "module-4-multiply-your-revenue-streams",
     title: "Module 4: Multiply Your Revenue Streams",
+    description:
+      "Get your money organized, then look for more of it. You'll build a real budget and map out your cash cow, quantum, and investment activities — the three kinds of income every creative needs.",
     order: 4,
     videoDriveId: "1anwZhhH8CbZg101yqK1TntfbDr4TZC-s",
     questions: [
@@ -113,6 +123,8 @@ const MODULES: ModuleSeed[] = [
   {
     slug: "module-5-growing-your-tribe",
     title: "Module 5: Growing Your Tribe",
+    description:
+      "Turn an audience into a tribe. You'll walk through the process for identifying, inviting, and engaging the people who'll follow — and eventually pay for — your work.",
     order: 5,
     videoDriveId: "1UjgcuiIThyO8mQ4fWioez18iEmHu1jzP",
     questions: [
@@ -129,6 +141,8 @@ const MODULES: ModuleSeed[] = [
   {
     slug: "module-6-developing-a-killer-sales-strategy",
     title: "Module 6: Developing a Killer Sales Strategy",
+    description:
+      "Move people from noticing you to buying from you. You'll build a REACH strategy — Reach, Engage, Activate, Close, Harness — for turning attention into sales.",
     order: 6,
     videoDriveId: "1ZCb2NeqaP0hd3kTiW1zoftws30IJo9UO",
     questions: [
@@ -148,6 +162,8 @@ const MODULES: ModuleSeed[] = [
   {
     slug: "module-7-financial-goals-and-structures",
     title: "Module 7: Financial Goals and Structures",
+    description:
+      "Put real financial structure under your creative income. You'll work through the core principles of financial health and fill out your personal budget and net worth calculator.",
     order: 7,
     videoDriveId: "1qIodNDfmNkw8Q3KWnr7PMRjbZNnDKxdk",
     questions: [
@@ -160,36 +176,43 @@ const MODULES: ModuleSeed[] = [
   {
     slug: "module-8-put-it-all-together",
     title: "Module 8: Put It All Together",
+    description:
+      "Bring everything from Modules 1–7 together into one working plan for your creative business.",
     order: 8,
     videoDriveId: "1p0a7UWOBCj8soq55Bh3LzHr3NeZJ9bmN",
   },
   {
     slug: "module-9-in-closing",
     title: "Module 9: In Closing",
+    description: "A final wrap-up — what you've built so far, and where to take it from here.",
     order: 9,
     videoDriveId: "1L6OgNtVbOoORi8o6RauqlfBTIfyq8m_r",
   },
   {
     slug: "bonus-1",
     title: "Bonus Lesson 1",
+    description: "Extra material from Kanjii, outside the core nine modules.",
     order: 10,
     videoDriveId: "1-zV2EDMmBEWd6QUX0-ObhX35ozPld7Xd",
   },
   {
     slug: "bonus-2",
     title: "Bonus Lesson 2",
+    description: "Extra material from Kanjii, outside the core nine modules.",
     order: 11,
     videoDriveId: "1mZW885T6hYZypUfvj82KCHqGdO0uknGR",
   },
   {
     slug: "bonus-3",
     title: "Bonus Lesson 3",
+    description: "Extra material from Kanjii, outside the core nine modules.",
     order: 12,
     videoDriveId: "1xPQ80KG2sKcAU_cO1AbJZlL0ul3Abhzs",
   },
   {
     slug: "bonus-4",
     title: "Bonus Lesson 4",
+    description: "Extra material from Kanjii, outside the core nine modules.",
     order: 13,
     videoDriveId: "1RplNyaIOB37xHdpwuA84bTvBF1qNq_c7",
   },

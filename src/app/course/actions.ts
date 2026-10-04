@@ -1,9 +1,15 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { auth, signOut } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getModuleForUser } from "@/lib/access";
+
+export async function signOutAction() {
+  await signOut({ redirect: false });
+  redirect("/login");
+}
 
 export async function markVideoWatched(moduleId: string, slug: string) {
   const session = await auth();
