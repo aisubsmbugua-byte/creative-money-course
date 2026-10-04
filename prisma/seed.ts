@@ -32,8 +32,8 @@ const MODULES: ModuleSeed[] = [
     videoDriveId: "1lZY3joy-_nZ5wmsMXqOzPsNqaZ4aPl8X",
   },
   {
-    slug: "module-1-the-end-game",
-    title: "Module 1: The End Game",
+    slug: "module-1-defining-your-end-goal",
+    title: "Module 1: Defining Your End Goal",
     order: 1,
     videoDriveId: "1J2UmAzWLeZK13lUgHAGE2Fk2jbU9qnsI",
     questions: [
@@ -55,8 +55,8 @@ const MODULES: ModuleSeed[] = [
     ],
   },
   {
-    slug: "module-2-can-the-real-you-stand-up",
-    title: "Module 2: Can The Real You Stand Up?",
+    slug: "module-2-can-the-real-you-please-stand-up",
+    title: "Module 2: Can The Real You Please Stand Up?",
     order: 2,
     videoDriveId: "10GOUkQgjtJ2Pt6dc-58Qj-L9XUsC0tMv",
     questions: [
@@ -147,7 +147,7 @@ const MODULES: ModuleSeed[] = [
   },
   {
     slug: "module-7-financial-goals-and-structures",
-    title: "Module 7: Financial Goals & Structures",
+    title: "Module 7: Financial Goals and Structures",
     order: 7,
     videoDriveId: "1qIodNDfmNkw8Q3KWnr7PMRjbZNnDKxdk",
     questions: [
@@ -158,16 +158,14 @@ const MODULES: ModuleSeed[] = [
     resources: [BUDGET_TEMPLATE, NETWORTH_CALCULATOR],
   },
   {
-    slug: "module-8",
-    title: "Module 8",
-    description: "Title pending — no workbook found in Drive for this module yet.",
+    slug: "module-8-put-it-all-together",
+    title: "Module 8: Put It All Together",
     order: 8,
     videoDriveId: "1p0a7UWOBCj8soq55Bh3LzHr3NeZJ9bmN",
   },
   {
-    slug: "module-9",
-    title: "Module 9",
-    description: "Title pending — no workbook found in Drive for this module yet.",
+    slug: "module-9-in-closing",
+    title: "Module 9: In Closing",
     order: 9,
     videoDriveId: "1L6OgNtVbOoORi8o6RauqlfBTIfyq8m_r",
   },
