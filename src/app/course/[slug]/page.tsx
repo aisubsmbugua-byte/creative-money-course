@@ -2,7 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { getModuleForUser } from "@/lib/access";
-import { markVideoWatched, submitWorkbook } from "@/app/course/actions";
+import { markVideoWatched, saveVideoPosition, submitWorkbook } from "@/app/course/actions";
 import { VideoPlayer } from "@/app/course/[slug]/VideoPlayer";
 
 export default async function ModulePage({
@@ -20,6 +20,8 @@ export default async function ModulePage({
   const { module, index, all } = found;
   const nextModule = all[index + 1];
   const onMarkWatched = markVideoWatched.bind(null, module.id, slug);
+  const onSavePosition = saveVideoPosition.bind(null, module.id, slug);
+  const initialPosition = module.progress[0]?.videoPosition ?? 0;
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-12 sm:px-10 sm:py-16">
@@ -64,8 +66,11 @@ export default async function ModulePage({
           {module.videoDriveId ? (
             <VideoPlayer
               src={`/api/stream/${slug}`}
+              poster={`/api/thumbnail/${slug}`}
               initiallyWatched={module.videoDone}
+              initialPosition={initialPosition}
               onMarkWatched={onMarkWatched}
+              onSavePosition={onSavePosition}
             />
           ) : (
             <div className="flex aspect-video items-center justify-center rounded-xl border border-dashed border-paper-line text-sm text-text-muted">

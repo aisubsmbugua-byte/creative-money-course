@@ -6,7 +6,7 @@ Online course platform for Kanjii's "Creative Money" course. Sequential, module-
 
 - Next.js (App Router) + TypeScript + Tailwind
 - Prisma + Postgres for users, progress, and workbook responses
-- NextAuth (email magic link) for student login
+- NextAuth (email + password, bcrypt-hashed) for student login
 - Videos and downloadable resources live in Google Drive. The app proxies them through its own server (`/api/stream/[slug]`, `/api/resource/[resourceId]`) using a Google service account, so there's never a public/shareable Drive link a student could use to bypass the module gating — the proxy checks login + unlock status on every request.
 - Deployed on Vercel; will later move to kanjiimbugua.com
 
@@ -32,4 +32,4 @@ The videos and workbook templates are stored in Kanjii's Google Drive and are **
 
 ## Status
 
-Core app (auth, gating, video streaming, workbooks) is built. Modules 1–9 + Intro + 4 Bonus videos are seeded from Drive with real workbook content for modules 1–7. Still needed: a Postgres database, SMTP credentials for magic-link email, the Google service account above, and a Vercel deployment.
+Core app is built and deployed: email/password auth, sequential gating, video streaming with resume-from-last-position, thumbnails, workbooks, and a module listing on the course home page. Modules 1–9 + Intro + 4 Bonus videos are seeded from Drive with real workbook content for modules 1–7.

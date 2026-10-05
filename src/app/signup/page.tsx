@@ -1,33 +1,19 @@
 import Link from "next/link";
-import { AuthError } from "next-auth";
-import { redirect } from "next/navigation";
-import { signIn } from "@/lib/auth";
+import { signUp } from "@/app/signup/actions";
 
 const ERRORS: Record<string, string> = {
-  CredentialsSignin: "Wrong email or password.",
+  MissingFields: "Fill in every field to continue.",
+  PasswordTooShort: "Password needs to be at least 8 characters.",
+  PasswordMismatch: "Those passwords don't match.",
+  EmailTaken: "An account with that email already exists — log in instead.",
 };
 
-export default async function LoginPage({
+export default async function SignUpPage({
   searchParams,
 }: {
   searchParams: Promise<{ error?: string }>;
 }) {
   const { error } = await searchParams;
-
-  async function login(formData: FormData) {
-    "use server";
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-
-    try {
-      await signIn("credentials", { email, password, redirectTo: "/course" });
-    } catch (err) {
-      if (err instanceof AuthError) {
-        redirect("/login?error=CredentialsSignin");
-      }
-      throw err;
-    }
-  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-ink px-4">
@@ -42,7 +28,9 @@ export default async function LoginPage({
         </div>
 
         <div className="rounded-xl bg-paper-raised p-7 shadow-xl shadow-black/20">
-          <p className="text-sm text-text-muted">Log in to continue the course.</p>
+          <p className="text-sm text-text-muted">
+            Create your account to start the course.
+          </p>
 
           {error && (
             <p className="mt-4 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
@@ -50,7 +38,13 @@ export default async function LoginPage({
             </p>
           )}
 
-          <form action={login} className="mt-5 space-y-3">
+          <form action={signUp} className="mt-5 space-y-3">
+            <input
+              type="text"
+              name="name"
+              placeholder="Name (optional)"
+              className="w-full rounded-md border border-paper-line bg-white px-3.5 py-2.5 text-sm text-text placeholder:text-text-muted focus:border-brass focus:outline-none"
+            />
             <input
               type="email"
               name="email"
@@ -62,21 +56,30 @@ export default async function LoginPage({
               type="password"
               name="password"
               required
-              placeholder="Password"
+              minLength={8}
+              placeholder="Password (min. 8 characters)"
+              className="w-full rounded-md border border-paper-line bg-white px-3.5 py-2.5 text-sm text-text placeholder:text-text-muted focus:border-brass focus:outline-none"
+            />
+            <input
+              type="password"
+              name="confirmPassword"
+              required
+              minLength={8}
+              placeholder="Confirm password"
               className="w-full rounded-md border border-paper-line bg-white px-3.5 py-2.5 text-sm text-text placeholder:text-text-muted focus:border-brass focus:outline-none"
             />
             <button
               type="submit"
               className="w-full rounded-md bg-ink px-3.5 py-2.5 text-sm font-medium text-cream-text transition-colors hover:bg-ink-light"
             >
-              Log in
+              Create account
             </button>
           </form>
 
           <p className="mt-5 text-center text-sm text-text-muted">
-            New here?{" "}
-            <Link href="/signup" className="font-medium text-text underline">
-              Create an account
+            Already have an account?{" "}
+            <Link href="/login" className="font-medium text-text underline">
+              Log in
             </Link>
           </p>
         </div>

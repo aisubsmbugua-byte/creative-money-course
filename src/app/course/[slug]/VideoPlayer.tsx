@@ -1,21 +1,30 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 
 export function VideoPlayer({
   src,
+  poster,
   initiallyWatched,
+  initialPosition,
   onMarkWatched,
+  onSavePosition,
 }: {
   src: string;
+  poster?: string;
   initiallyWatched: boolean;
+  initialPosition: number;
   onMarkWatched: () => Promise<void>;
+  onSavePosition: (seconds: number) => Promise<void>;
 }) {
   const [watched, setWatched] = useState(initiallyWatched);
   const [isPending, startTransition] = useTransition();
   const firedRef = useRef(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   function markWatched() {
+    stopTracking();
     if (firedRef.current || watched) return;
     firedRef.current = true;
     setWatched(true);
@@ -24,14 +33,49 @@ export function VideoPlayer({
     });
   }
 
+  function savePosition() {
+    const video = videoRef.current;
+    if (!video) return;
+    startTransition(() => {
+      onSavePosition(video.currentTime);
+    });
+  }
+
+  function startTracking() {
+    stopTracking();
+    intervalRef.current = setInterval(savePosition, 10_000);
+  }
+
+  function stopTracking() {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  }
+
+  useEffect(() => stopTracking, []);
+
   return (
     <div>
       <div className="aspect-video overflow-hidden rounded-xl border border-paper-line bg-ink">
         <video
+          ref={videoRef}
           controls
           preload="metadata"
+          poster={poster}
           className="h-full w-full"
           src={src}
+          onLoadedMetadata={() => {
+            const video = videoRef.current;
+            if (video && !watched && initialPosition > 0 && initialPosition < video.duration - 5) {
+              video.currentTime = initialPosition;
+            }
+          }}
+          onPlay={startTracking}
+          onPause={() => {
+            stopTracking();
+            savePosition();
+          }}
           onEnded={markWatched}
         />
       </div>

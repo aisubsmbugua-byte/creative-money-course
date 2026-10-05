@@ -34,3 +34,21 @@ export async function fetchDriveFile(fileId: string, range: string | null) {
     },
   );
 }
+
+export async function fetchDriveThumbnail(fileId: string, size = 800) {
+  const client = await getAuth().getClient();
+  const { token } = await client.getAccessToken();
+  const authHeader = { Authorization: `Bearer ${token}` };
+
+  const metaRes = await fetch(
+    `https://www.googleapis.com/drive/v3/files/${fileId}?fields=thumbnailLink&supportsAllDrives=true`,
+    { headers: authHeader },
+  );
+  if (!metaRes.ok) return metaRes;
+
+  const { thumbnailLink } = (await metaRes.json()) as { thumbnailLink?: string };
+  if (!thumbnailLink) return new Response(null, { status: 404 });
+
+  const sizedLink = thumbnailLink.replace(/=s\d+$/, `=s${size}`);
+  return fetch(sizedLink, { headers: authHeader });
+}

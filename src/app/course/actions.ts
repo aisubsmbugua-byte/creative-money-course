@@ -22,12 +22,28 @@ export async function markVideoWatched(moduleId: string, slug: string) {
 
   await prisma.moduleProgress.upsert({
     where: { userId_moduleId: { userId: session.user.id, moduleId } },
-    create: { userId: session.user.id, moduleId, videoWatchedAt: new Date() },
-    update: { videoWatchedAt: new Date() },
+    create: { userId: session.user.id, moduleId, videoWatchedAt: new Date(), videoPosition: 0 },
+    update: { videoWatchedAt: new Date(), videoPosition: 0 },
   });
 
   revalidatePath(`/course/${slug}`);
   revalidatePath("/course");
+}
+
+export async function saveVideoPosition(moduleId: string, slug: string, seconds: number) {
+  const session = await auth();
+  if (!session?.user?.id) return;
+
+  const found = await getModuleForUser(session.user.id, slug);
+  if (!found || found.module.id !== moduleId || found.module.status === "locked") return;
+
+  const position = Math.max(0, Math.floor(seconds));
+
+  await prisma.moduleProgress.upsert({
+    where: { userId_moduleId: { userId: session.user.id, moduleId } },
+    create: { userId: session.user.id, moduleId, videoPosition: position },
+    update: { videoPosition: position },
+  });
 }
 
 export async function submitWorkbook(
