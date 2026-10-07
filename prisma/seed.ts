@@ -10,7 +10,7 @@ type ModuleSeed = {
   title: string;
   description?: string;
   order: number;
-  videoDriveId: string;
+  videoDriveId?: string;
   questions?: Question[];
   resources?: Resource[];
 };
@@ -215,6 +215,51 @@ const MODULES: ModuleSeed[] = [
     description: "Extra material from Kanjii, outside the core nine modules.",
     order: 13,
     videoDriveId: "1RplNyaIOB37xHdpwuA84bTvBF1qNq_c7",
+  },
+  {
+    slug: "creative-money-strategy-questionnaire",
+    title: "Creative Money Strategy Questionnaire",
+    description:
+      "The final step. Your answers here — combined with everything you've written throughout the course — become the input for your own Creative Money strategy, written just for you.",
+    order: 14,
+    questions: [
+      {
+        prompt:
+          "In one sentence, what is the creative business or offer you're building? (Pull from your Mission, Vision, and USP work.)",
+      },
+      {
+        prompt: "Who is the ONE audience you're committing to serve first? Describe them specifically.",
+      },
+      {
+        prompt:
+          "Which revenue streams will you prioritize in the next 90 days — your cash cow, quantum, or investment activities — and why?",
+      },
+      {
+        prompt:
+          "What's your tribe-growing plan for the next 90 days? How will you invite and engage people consistently?",
+      },
+      {
+        prompt:
+          "Walk through your REACH strategy as it stands today — your plan for Reach, Engage, Activate, Close, and Harness.",
+      },
+      {
+        prompt: "What's the ONE financial habit or structure you're committing to starting this month?",
+      },
+      {
+        prompt: "What's standing in your way right now — the biggest obstacle between you and executing this plan?",
+      },
+      {
+        prompt: "If this plan works, what does your creative business look like in 12 months?",
+      },
+      {
+        prompt: "What's the very first action you'll take in the next 7 days?",
+        type: QuestionType.SHORT_TEXT,
+      },
+      {
+        prompt: "Anything else you want your strategy to take into account?",
+        required: false,
+      },
+    ],
   },
 ];
 

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 import { getModulesWithStatus, type ModuleWithStatus } from "@/lib/access";
 import { signOutAction } from "@/app/course/actions";
 
@@ -93,6 +94,10 @@ export default async function CourseLayout({
 }) {
   const session = await auth();
   const modules = await getModulesWithStatus(session!.user.id);
+  const strategy = await prisma.studentStrategy.findUnique({
+    where: { userId: session!.user.id },
+    select: { id: true },
+  });
   const completedCount = modules.filter((m) => m.status === "completed").length;
   const pct = modules.length ? Math.round((completedCount / modules.length) * 100) : 0;
   const currentIndex = modules.findIndex((m) => m.status !== "completed");
@@ -118,6 +123,23 @@ export default async function CourseLayout({
         {completedCount} / {modules.length} complete
       </p>
     </div>
+  );
+
+  const strategyLink = strategy && (
+    <Link
+      href="/course/strategy"
+      className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-brass transition-colors hover:text-brass-light"
+    >
+      <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none">
+        <path
+          d="M3 2.5h7l3 3v8a.5.5 0 0 1-.5.5h-9.5a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5z"
+          stroke="currentColor"
+          strokeWidth="1.3"
+        />
+        <path d="M5.5 8h5M5.5 10.5h5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+      </svg>
+      My strategy
+    </Link>
   );
 
   const signOut = (
@@ -154,6 +176,7 @@ export default async function CourseLayout({
           <div className="mt-4 flex flex-col gap-4">
             {progress}
             <ModuleList modules={modules} currentIndex={currentIndex} />
+            {strategyLink}
             {signOut}
           </div>
         </details>
@@ -170,7 +193,10 @@ export default async function CourseLayout({
           ) : (
             <ModuleList modules={modules} currentIndex={currentIndex} />
           )}
-          <div className="mt-auto pt-6">{signOut}</div>
+          <div className="mt-auto flex flex-col gap-3 pt-6">
+            {strategyLink}
+            {signOut}
+          </div>
         </div>
       </aside>
 

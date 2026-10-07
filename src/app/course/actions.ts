@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import { auth, signOut } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getModuleForUser } from "@/lib/access";
+import { generateStrategy } from "@/lib/claude";
+import { buildStudentContextText, buildTranscriptsText } from "@/lib/strategy";
 
 export async function signOutAction() {
   await signOut({ redirect: false });
@@ -83,4 +85,30 @@ export async function submitWorkbook(
 
   revalidatePath(`/course/${slug}`);
   revalidatePath("/course");
+}
+
+export async function submitStrategyQuestionnaire(
+  moduleId: string,
+  slug: string,
+  answers: Record<string, string>,
+) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error("Not authenticated");
+
+  await submitWorkbook(moduleId, slug, answers);
+
+  const [transcriptsText, studentContextText] = await Promise.all([
+    buildTranscriptsText(),
+    buildStudentContextText(session.user.id),
+  ]);
+
+  const content = await generateStrategy(transcriptsText, studentContextText);
+
+  await prisma.studentStrategy.upsert({
+    where: { userId: session.user.id },
+    create: { userId: session.user.id, content },
+    update: { content },
+  });
+
+  redirect("/course/strategy");
 }

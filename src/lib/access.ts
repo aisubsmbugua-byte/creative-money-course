@@ -20,7 +20,9 @@ export async function getModulesWithStatus(userId: string) {
 
   return modules.map((module) => {
     const progress = module.progress[0];
-    const videoDone = Boolean(progress?.videoWatchedAt);
+    const videoDone = module.videoDriveId
+      ? Boolean(progress?.videoWatchedAt)
+      : true;
     const workbookDone = module.workbook
       ? Boolean(progress?.workbookCompletedAt)
       : true;

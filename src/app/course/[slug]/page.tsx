@@ -2,8 +2,16 @@ import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { getModuleForUser } from "@/lib/access";
-import { markVideoWatched, saveVideoPosition, submitWorkbook } from "@/app/course/actions";
+import {
+  markVideoWatched,
+  saveVideoPosition,
+  submitStrategyQuestionnaire,
+  submitWorkbook,
+} from "@/app/course/actions";
+import { STRATEGY_QUESTIONNAIRE_SLUG } from "@/lib/strategy";
 import { VideoPlayer } from "@/app/course/[slug]/VideoPlayer";
+
+export const maxDuration = 300;
 
 export default async function ModulePage({
   params,
@@ -58,12 +66,12 @@ export default async function ModulePage({
         </div>
       )}
 
-      <section className="mt-10">
-        <p className="font-mono text-xs uppercase tracking-widest text-text-muted">
-          Lesson
-        </p>
-        <div className="mt-3">
-          {module.videoDriveId ? (
+      {module.videoDriveId && (
+        <section className="mt-10">
+          <p className="font-mono text-xs uppercase tracking-widest text-text-muted">
+            Lesson
+          </p>
+          <div className="mt-3">
             <VideoPlayer
               src={`/api/stream/${slug}`}
               poster={`/api/thumbnail/${slug}`}
@@ -72,13 +80,9 @@ export default async function ModulePage({
               onMarkWatched={onMarkWatched}
               onSavePosition={onSavePosition}
             />
-          ) : (
-            <div className="flex aspect-video items-center justify-center rounded-xl border border-dashed border-paper-line text-sm text-text-muted">
-              Video coming soon
-            </div>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
 
       {module.resources.length > 0 && (
         <section className="mt-8">
@@ -136,7 +140,11 @@ export default async function ModulePage({
                   answers[key] = value;
                 }
               }
-              await submitWorkbook(module.id, slug, answers);
+              if (slug === STRATEGY_QUESTIONNAIRE_SLUG) {
+                await submitStrategyQuestionnaire(module.id, slug, answers);
+              } else {
+                await submitWorkbook(module.id, slug, answers);
+              }
             }}
             className="mt-6 space-y-6"
           >
@@ -185,8 +193,18 @@ export default async function ModulePage({
               type="submit"
               className="rounded-lg bg-brass px-5 py-3 font-sans text-sm font-medium text-ink transition-colors hover:bg-brass-light"
             >
-              {module.workbookDone ? "Update my answers" : "Save my answers"}
+              {slug === STRATEGY_QUESTIONNAIRE_SLUG
+                ? "Generate my strategy"
+                : module.workbookDone
+                  ? "Update my answers"
+                  : "Save my answers"}
             </button>
+            {slug === STRATEGY_QUESTIONNAIRE_SLUG && (
+              <p className="text-xs text-text-muted">
+                This takes a minute or two — Claude is reading everything you&apos;ve
+                written across the whole course to build your strategy.
+              </p>
+            )}
           </form>
         </section>
         );
